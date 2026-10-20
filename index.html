@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10283d">
+  <title>Encontra Leitos | Rede Paraná</title>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://tile.openstreetmap.org">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="overrides.css">
+</head>
+<body>
+  <main id="loginScreen" class="screen login-screen">
+    <section class="login-story">
+      <div class="brand brand-light"><span class="brand-mark"><i></i><i></i><i></i></span><span>Encontra<span class="brand-thin"> Leitos</span></span></div>
+      <div class="story-copy">
+        <span class="eyebrow eyebrow-light"><span class="pulse-dot"></span> REDE DE SAÚDE DO PARANÁ</span>
+        <h1>Uma rede mais conectada.<br><em>Uma resposta mais rápida.</em></h1>
+        <p>Encontre hospitais com capacidade cadastrada, organize a solicitação e coordene o próximo passo em um só lugar.</p>
+        <div class="story-metrics">
+          <div><strong id="loginHospitalCount">433</strong><span>hospitais no Paraná</span></div>
+          <div><strong id="loginMunicipalityCount">222</strong><span>municípios com hospital</span></div>
+        </div>
+      </div>
+      <div class="story-quote">
+        <span class="quote-icon">↗</span>
+        <div><strong>Informação organizada para apoiar a coordenação.</strong><small>Protótipo demonstrativo · dados de cadastro CNES</small></div>
+      </div>
+      <div class="story-orbit orbit-one"></div><div class="story-orbit orbit-two"></div>
+    </section>
+    <section class="login-panel">
+      <div class="login-panel-top"><span>Portal de acesso</span><span class="secure-label"><span class="lock-icon">◈</span> Ambiente demonstrativo</span></div>
+      <div class="login-card">
+        <div class="mobile-brand brand"><span class="brand-mark"><i></i><i></i><i></i></span><span>Encontra<span class="brand-thin"> Leitos</span></span></div>
+        <span class="eyebrow">BEM-VINDO À PLATAFORMA</span>
+        <h2>Acesse sua conta</h2>
+        <p class="muted">Entre com seu e-mail institucional para continuar.</p>
+        <form id="loginForm" class="login-form">
+          <label for="email">E-mail</label>
+          <div class="input-wrap"><span class="input-icon">✉</span><input id="email" name="email" type="email" autocomplete="username" placeholder="nome@hospital.com.br" required></div>
+          <label for="password">Senha</label>
+          <div class="input-wrap"><span class="input-icon">⌑</span><input id="password" name="password" type="password" autocomplete="current-password" placeholder="Digite sua senha" required><button class="show-password" type="button" id="togglePassword" aria-label="Mostrar senha">◉</button></div>
+          <div id="loginError" class="form-error" role="alert"></div>
+          <button type="submit" class="button button-primary button-full">Entrar na plataforma <span>→</span></button>
+        </form>
+        <div class="demo-access"><div class="demo-access-head"><span class="demo-dot"></span><strong>Acesso para demonstração</strong></div><div><span>E-mail</span><code>lucas.berr@encontraleitos.demo</code></div><div><span>Senha</span><code>parana2026</code></div><button type="button" id="fillDemo" class="text-button">Preencher acesso de Lucas <span>↗</span></button></div>
+        <p class="login-footnote">Acesso local de demonstração. Nenhum dado de paciente é solicitado.</p>
+      </div>
+      <div class="login-bottom"><span>© 2026 Encontra Leitos</span><a href="#demo-notes" id="dataNotesLink">Sobre esta demonstração</a></div>
+    </section>
+  </main>
+
+  <main id="homeScreen" class="screen home-screen hidden">
+    <header class="home-header">
+      <a class="brand" href="#home"><span class="brand-mark"><i></i><i></i><i></i></span><span>Rede<span class="brand-thin"> Paraná</span></span></a>
+      <div class="header-right"><span class="env-pill"><span class="pulse-dot"></span> AMBIENTE DE DEMONSTRAÇÃO</span><button class="user-chip" id="homeUser"><span class="avatar">LB</span><span><strong>Lucas Berr</strong><small>Gestor hospitalar</small></span><span class="chevron">⌄</span></button><button class="icon-button" id="logoutHome" title="Sair">↗</button></div>
+    </header>
+    <section class="home-content">
+      <div class="welcome-row"><div><span class="eyebrow">SEGUNDA-FEIRA, 19 DE OUTUBRO DE 2026</span><h1>Olá, Lucas <span class="wave">✳</span></h1><p>Escolha um produto para continuar sua jornada.</p></div><div class="hospital-pill"><span class="hospital-icon">✚</span><span><small>UNIDADE VINCULADA</small><strong>Hospital Santa Casa de Curitiba</strong><em>CNES 0015334 · Curitiba, PR</em></span><span class="verified">✓</span></div></div>
+      <div class="section-heading"><div><h2>Seus produtos</h2><p>Acesso autorizado para sua unidade</p></div><span class="access-count">2 produtos disponíveis</span></div>
+      <div class="product-grid">
+        <article class="product-card product-prioriza">
+          <div class="product-top"><span class="product-icon icon-prioriza">◉</span><span class="product-tag">PLANEJAMENTO</span></div>
+          <div class="product-title"><h3>Prioriza Leitos</h3><span class="product-arrow">↗</span></div>
+          <p>Explore indicadores de necessidade hospitalar e prioridades relativas nos municípios.</p>
+          <div class="product-meta"><span class="meta-dot muted-dot"></span> Cobertura demonstrativa: Rio Grande do Sul</div>
+          <a class="button button-outline" href="../Prioriza-leitos/index.html" target="_blank" rel="noreferrer">Acessar Prioriza Leitos <span>→</span></a>
+        </article>
+        <article class="product-card product-encontra">
+          <div class="product-top"><span class="product-icon icon-encontra">⌕</span><span class="product-tag tag-green">COORDENAÇÃO ASSISTENCIAL</span></div>
+          <div class="product-title"><h3>Encontra Leitos</h3><span class="product-arrow">↗</span></div>
+          <p>Localize hospitais próximos, consulte capacidade cadastrada e simule a coordenação de uma vaga.</p>
+          <div class="product-meta"><span class="meta-dot green-dot"></span> Cobertura demonstrativa: Paraná · <strong id="homeHospitalCount">433 hospitais</strong></div>
+          <button class="button button-dark" id="openEncontra">Abrir Encontra Leitos <span>→</span></button>
+        </article>
+      </div>
+      <div class="home-note"><span class="note-icon">ⓘ</span><p><strong>Sobre os dados:</strong> os hospitais e os leitos cadastrados vêm do CNES. A disponibilidade, as reservas e os transportes nesta demonstração são simulados.</p><a href="#demo-notes" id="homeDataNotes">Ver detalhes dos dados →</a></div>
+      <div class="platform-footer"><span>Plataforma modular de saúde pública</span><span>PARANÁ <b>·</b> BRASIL</span></div>
+    </section>
+  </main>
+
+  <main id="appScreen" class="screen app-screen hidden">
+    <aside class="sidebar">
+      <a class="brand brand-sidebar" href="#home" id="backHome"><span class="brand-mark"><i></i><i></i><i></i></span><span>Encontra<span class="brand-thin"> Leitos</span></span></a>
+      <div class="sidebar-workspace"><span class="workspace-symbol">PR</span><span><small>REDE ESTADUAL</small><strong>Paraná</strong></span><span class="chevron">⌄</span></div>
+      <nav class="side-nav" aria-label="Navegação principal">
+        <div class="nav-caption">ESPAÇO DE TRABALHO</div>
+        <button class="nav-item active" data-nav="map"><span class="nav-glyph">⌖</span> Mapa de hospitais <span class="nav-count" id="navHospitalCount">433</span></button>
+        <button class="nav-item" data-nav="requests"><span class="nav-glyph">▤</span> Solicitações <span class="nav-badge">1</span></button>
+        <button class="nav-item" data-nav="transport"><span class="nav-glyph">➤</span> Transportes</button>
+        <div class="nav-caption nav-caption-gap">PLATAFORMA</div>
+        <button class="nav-item" id="switchProduct"><span class="nav-glyph">▦</span> Meus produtos <span class="nav-glyph nav-end">↗</span></button>
+      </nav>
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-help"><span class="help-icon">?</span><div><strong>Precisa de ajuda?</strong><small>Fale com o suporte da rede</small></div><span>↗</span></div>
+      <button class="sidebar-user" id="logoutApp"><span class="avatar avatar-sidebar">LB</span><span><strong>Lucas Berr</strong><small>Santa Casa de Curitiba</small></span><span class="chevron">⌄</span></button>
+    </aside>
+
+    <section class="app-main">
+      <header class="app-topbar"><div class="breadcrumbs"><span>Paraná</span><b>/</b><strong>Encontra Leitos</strong></div><div class="topbar-actions"><span class="demo-live"><span class="pulse-dot"></span> DADOS DEMONSTRATIVOS</span><button class="help-round" title="Ajuda">?</button><button class="user-chip top-user"><span class="avatar">LB</span><span><strong>Lucas Berr</strong><small>Gestor · Santa Casa</small></span><span class="chevron">⌄</span></button></div></header>
+      <section class="dashboard-content">
+        <div class="dash-heading"><div><span class="eyebrow">CENTRAL DE COORDENAÇÃO · PARANÁ</span><h1>Encontre capacidade assistencial</h1><p>Consulte hospitais próximos e coordene os próximos passos da solicitação.</p></div><button class="button button-primary new-request" id="newRequest"><span>＋</span> Nova solicitação</button></div>
+        <div class="demo-banner"><span class="demo-banner-icon">ⓘ</span><span><strong>Protótipo demonstrativo.</strong> O CNES mostra capacidade cadastrada. Vagas livres, reserva e transporte são simulações locais.</span><a href="#demo-notes" id="dashDataNotes">Como os dados funcionam</a></div>
+        <div class="stat-grid">
+          <article class="stat-card"><span class="stat-icon stat-blue">⌖</span><div><small>HOSPITAIS NO PARANÁ</small><strong id="statHospitals">433</strong><span>em 222 municípios</span></div><span class="stat-trend">CNES ↗</span></article>
+          <article class="stat-card"><span class="stat-icon stat-green">▤</span><div><small>VAGAS SINALIZADAS</small><strong id="statAvailable">—</strong><span>simulação de disponibilidade</span></div><span class="stat-status"><i></i> SIMULADO</span></article>
+          <article class="stat-card"><span class="stat-icon stat-amber">◷</span><div><small>SOLICITAÇÕES ATIVAS</small><strong id="statRequests">1</strong><span>nesta demonstração</span></div><span class="stat-status status-amber"><i></i> DEMO</span></article>
+          <article class="stat-card own-hospital-stat"><span class="stat-icon stat-violet">✚</span><div><small>SUA UNIDADE</small><strong>Santa Casa</strong><span>Curitiba · CNES 0015334</span></div><span class="own-marker"></span></article>
+        </div>
+
+        <div class="search-toolbar">
+          <div class="toolbar-title"><span class="toolbar-icon">⌕</span><div><strong>Buscar leitos próximos</strong><small>Resultados ordenados pela distância aproximada</small></div></div>
+          <label class="select-field"><span>TIPO DE LEITO</span><select id="bedType"><option value="obstetrico">Obstétrico</option><option value="utiAdulto">UTI adulto</option><option value="pediatrico">Pediátrico</option></select></label>
+          <label class="search-field"><span>FILTRAR HOSPITAIS</span><div class="input-wrap"><span class="input-icon">⌕</span><input id="hospitalSearch" type="search" placeholder="Município, hospital ou CNES"></div></label>
+          <label class="available-toggle"><input type="checkbox" id="availableOnly" checked><span class="toggle-ui"></span><span>Com vaga sinalizada</span><small>DEMO</small></label>
+        </div>
+
+        <div class="map-workspace">
+          <section class="map-panel">
+            <div class="map-panel-head"><div><h2>Rede hospitalar do Paraná</h2><p id="mapSubtitle">Hospitais cadastrados no CNES · ponto do estabelecimento informado no cadastro</p></div><button class="map-expand" id="fitMap" title="Enquadrar Paraná">⛶</button></div>
+            <div class="map-legend"><span><i class="legend-own"></i> Sua unidade · origem</span><span><i class="legend-destination"></i> Destino selecionado</span><span><i class="legend-available"></i> Vaga sinalizada <em>DEMO</em></span><span><i class="legend-hospital"></i> Hospital cadastrado</span><span class="legend-count" id="mapCount">433 unidades</span></div>
+            <div id="map" aria-label="Mapa dos hospitais do Paraná"></div>
+            <div class="map-foot"><span>⌖ Coordenadas do estabelecimento conforme cadastro CNES.</span><span>Distâncias em linha reta, sem roteamento viário.</span></div>
+          </section>
+          <aside id="resultsPanel" class="results-panel">
+            <div class="results-head"><div><span class="eyebrow">A PARTIR DA SUA UNIDADE</span><h2>Opções próximas</h2><p id="originLabel">Santa Casa de Curitiba · Curitiba</p></div><button class="filter-icon" title="Filtros">☷</button></div>
+            <div class="results-summary"><span class="summary-check">✓</span><span><strong id="resultCount">— opções</strong><small>com vaga demonstrativa para <b id="selectedBedLabel">obstétrico</b></small></span><span class="summary-sim">SIMULADO</span></div>
+            <div id="resultsList" class="results-list"></div>
+            <div id="noResults" class="empty-results hidden"><span>⌕</span><strong>Nenhuma opção com esses filtros</strong><small>Altere o tipo de leito ou remova o filtro de vaga.</small></div>
+            <button id="showAllResults" class="show-all">Ver hospitais sem vaga sinalizada <span>→</span></button>
+            <div class="results-disclaimer"><span>ⓘ</span><p>Vagas demonstrativas. Confirme disponibilidade com a equipe responsável antes de qualquer encaminhamento.</p></div>
+          </aside>
+          <aside id="allocationPanel" class="results-panel allocation-panel hidden" aria-live="polite">
+            <div class="allocation-panel-head"><div><span class="eyebrow">TRANSFERÊNCIA DEMONSTRATIVA</span><h2>Origem e destino</h2></div><button id="closeAllocationPanel" class="panel-close" aria-label="Voltar às opções">×</button></div>
+            <div class="transfer-pair"><div class="transfer-place transfer-origin"><span class="transfer-marker">●</span><span><small>HOSPITAL DE ORIGEM · SUA UNIDADE</small><strong id="transferOriginName">Santa Casa de Curitiba</strong><em id="transferOriginCity">Curitiba · CNES 0015334</em></span></div><div class="transfer-connector"><span>↓</span><small id="transferDistance">Distância aproximada</small></div><div class="transfer-place transfer-destination"><span class="transfer-marker">●</span><span><small>HOSPITAL DE DESTINO</small><strong id="transferDestinationName"></strong><em id="transferDestinationCity"></em></span></div></div>
+            <section class="patient-chooser" aria-label="Seleção do paciente">
+              <div class="patient-chooser-heading"><span class="eyebrow">PACIENTE NA SUA UNIDADE</span><span class="demo-chip">FICTÍCIOS · DEMO</span></div>
+              <div id="patientSearchBlock"><label class="patient-search"><span>BUSCAR PELO NOME</span><div class="input-wrap"><span class="input-icon">⌕</span><input id="patientSearch" type="search" placeholder="Digite o nome do paciente" autocomplete="off"></div></label><div id="patientOptions" class="patient-options"></div></div>
+              <div id="selectedPatientCard" class="selected-patient hidden"></div>
+              <p class="patient-demo-note">Nomes e urgências fictícios. A classificação serve apenas à demonstração.</p>
+            </section>
+            <div id="allocationContent"></div>
+          </aside>
+        </div>
+        <div class="records-note"><span>FONTE CADASTRAL</span><a href="https://dadosabertos.saude.gov.br/dataset/hospitais-e-leitos" target="_blank" rel="noreferrer">CNES — leitos ↗</a><span class="record-sep">·</span><span>Hospitais: competência mais recente disponível até 08/2026 · leitos obstétricos e pediátricos: 02/2026</span><a class="geo-credit" href="https://dadosabertos.saude.gov.br/dataset/cnes-cadastro-nacional-de-estabelecimentos-de-saude" target="_blank" rel="noreferrer">Coordenadas dos estabelecimentos: CNES ↗</a></div>
+      </section>
+    </section>
+  </main>
+
+  <div id="allocationModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <section class="allocation-modal">
+      <button id="closeModal" class="modal-close" aria-label="Fechar">×</button>
+      <div id="modalContent"></div>
+    </section>
+  </div>
+
+  <div id="toast" class="toast hidden" role="status"><span>✓</span><div><strong id="toastTitle"></strong><small id="toastMessage"></small></div></div>
+
+  <div id="demoNotes" class="notes-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="notesTitle">
+    <section class="notes-card"><button id="closeNotes" class="modal-close" aria-label="Fechar">×</button><span class="eyebrow">TRANSPARÊNCIA DA DEMONSTRAÇÃO</span><h2 id="notesTitle">O que é dado real e o que é simulado?</h2><p><strong>Cadastro CNES:</strong> 433 hospitais do Paraná. O total de leitos SUS e os registros hospitalares vêm do dataset Hospitais e Leitos, atualizado em 20/09/2026; foi usado o registro mais recente disponível por estabelecimento, até a competência 08/2026.</p><p><strong>Tipos de leito:</strong> UTI adulto vem do extrato de Hospitais e Leitos. Leitos obstétricos e pediátricos vêm da extração CNES LTPR da competência 02/2026.</p><p><strong>Mapa:</strong> os 433 estabelecimentos foram cruzados pelo código CNES com latitude e longitude do cadastro CNES, atualizado em 17/10/2026. Os pontos indicam a localização informada para cada estabelecimento; a precisão depende da qualidade cadastral. A distância é em linha reta, não uma rota.</p><p><strong>Disponibilidade, reserva e transporte:</strong> todos os estados de vaga, protocolos, tempos e veículos foram criados para esta demonstração. Nenhum leito é reservado e nenhum transporte é despachado.</p><button id="closeNotesButton" class="button button-primary button-full">Entendi</button></section>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
